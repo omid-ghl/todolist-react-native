@@ -2,20 +2,26 @@ import {AppScreen, Input} from '@Commons';
 import {StackParamList} from '@Navigators/Stacks';
 import {colors, typography} from '@Theme';
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import HomeHeader from '../components/HomeHeader';
-import {ItemsCard} from '../components';
-import {useAppSelector} from '@Hooks';
+import {ActionsModal, ItemsCard} from '../components';
+import {useAppSelector, useSortedData} from '@Hooks';
 import {todo} from '@Models';
+import {Modalize} from 'react-native-modalize';
+import useSortData, {SortBy} from '@Hooks/useSortData';
+import {INITIAL_SORT_TYPE} from '@constants/common';
 
 const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
   navigation,
 }) => {
   const {t} = useTranslation();
+  const ActionsModalRef = useRef<Modalize>(null);
+
   const todos = useAppSelector(state => state.todos.todosList);
   const [searchValue, setSearchValue] = useState('');
+  const [sortType, setSortType] = useState<SortBy>(INITIAL_SORT_TYPE);
 
   const gotoCreateNewPost = useCallback(() => {
     return navigation.navigate('create');
@@ -38,9 +44,18 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
     return lowerCaseTitle.includes(lowerCaseSearchCase);
   });
 
+  const openActionsModal = useCallback(() => {
+    ActionsModalRef.current?.open();
+  }, []);
+
+  const sortedData = useSortData(finalValues, sortType);
+
   return (
     <AppScreen style={styles.container}>
-      <HomeHeader onNewItemPressed={gotoCreateNewPost} />
+      <HomeHeader
+        onNewItemPressed={gotoCreateNewPost}
+        onMorePressed={openActionsModal}
+      />
       <Input
         wrapperStyle={styles.inputStyle}
         placeholder={t('search')}
@@ -58,7 +73,13 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
         )}
         contentContainerStyle={styles.flatListContainer}
         ListEmptyComponent={renderEmptyList}
-        data={finalValues}
+        data={sortedData ?? []}
+      />
+      <ActionsModal
+        ActionsModalRef={ActionsModalRef}
+        onSort={({sortParam}: {sortParam: SortBy}) => {
+          setSortType(sortParam);
+        }}
       />
     </AppScreen>
   );

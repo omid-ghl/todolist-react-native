@@ -8,6 +8,7 @@ import ArrowDown from '@Assets/Svg/arrowDown.svg';
 import Back from '@Assets/Svg/back.svg';
 import Close from '@Assets/Svg/close.svg';
 import Edit from '@Assets/Svg/edit.svg';
+import More from '@Assets/Svg/threeDotsWhite.svg';
 
 export const SVG = {
   BareTick,
@@ -20,4 +21,5 @@ export const SVG = {
   Back,
   Close,
   Edit,
+  More,
 };

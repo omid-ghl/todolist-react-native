@@ -32,4 +32,6 @@ export default {
   editItem: 'Edit Item',
   update: 'Update',
   updateItem: 'Update Existing Item',
+  deleteAll: '⚠️ Delete Whole Items ⚠️',
+  sortBy: 'Toggle And Sort By {{parameter}}',
 };

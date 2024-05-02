@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import {store} from './src/Store';
 import {AlertWrapper} from '@Commons';
 import Toast from 'react-native-toast-message';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const App = () => {
   useEffect(() => {
@@ -17,13 +18,15 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <ApplicationNavigator />
-        <AlertWrapper />
-        <Toast />
-      </Provider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <ApplicationNavigator />
+          <AlertWrapper />
+          <Toast />
+        </Provider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 };
 
