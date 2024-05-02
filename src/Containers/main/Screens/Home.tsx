@@ -1,14 +1,13 @@
-import {AppScreen, Button} from '@Commons';
+import {AppScreen, Input} from '@Commons';
 import {StackParamList} from '@Navigators/Stacks';
-import {SVG, colors, typography} from '@Theme';
+import {colors, typography} from '@Theme';
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import HomeHeader from '../components/HomeHeader';
-import ItemsCard from '../components/ItemsCard';
+import {ItemsCard} from '../components';
 import {useAppSelector} from '@Hooks';
-import AsyncStorageService from '@Services/storageService';
 import {todo} from '@Models';
 
 const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
@@ -16,9 +15,10 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
 }) => {
   const {t} = useTranslation();
   const todos = useAppSelector(state => state.todos.todosList);
+  const [searchValue, setSearchValue] = useState('');
 
   const gotoCreateNewPost = useCallback(() => {
-    navigation.navigate('create');
+    return navigation.navigate('create');
   }, [navigation]);
 
   const renderEmptyList = () => {
@@ -29,27 +29,36 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
     );
   };
 
-  const keyExtractor = ({title, creationDate}: todo) =>
-    JSON.stringify(title + creationDate);
+  const keyExtractor = ({title, creationDate}: todo, index: number) =>
+    JSON.stringify(title + JSON.stringify(creationDate) + index);
+
+  const finalValues = todos?.filter(item => {
+    const lowerCaseTitle = item?.title?.toLowerCase();
+    const lowerCaseSearchCase = searchValue?.toLowerCase();
+    return lowerCaseTitle.includes(lowerCaseSearchCase);
+  });
 
   return (
     <AppScreen style={styles.container}>
       <HomeHeader onNewItemPressed={gotoCreateNewPost} />
-
+      <Input
+        wrapperStyle={styles.inputStyle}
+        placeholder={t('search')}
+        onChangeText={setSearchValue}
+        value={searchValue}
+      />
       <FlatList
         keyExtractor={keyExtractor}
-        renderItem={({item}) => (
-          <ItemsCard title={item?.title} creationDate={item?.creationDate} />
+        renderItem={({item, index}) => (
+          <ItemsCard
+            title={item?.title}
+            creationDate={item?.creationDate}
+            index={index}
+          />
         )}
         contentContainerStyle={styles.flatListContainer}
         ListEmptyComponent={renderEmptyList}
-        data={todos}
-      />
-      <Button
-        title="clear all"
-        onPress={async () => {
-          await AsyncStorageService.clear();
-        }}
+        data={finalValues}
       />
     </AppScreen>
   );
@@ -97,6 +106,10 @@ const styles = StyleSheet.create({
   emptyMessage: {
     ...typography.title,
     color: colors.neutral['500'],
+  },
+  inputStyle: {
+    marginTop: 10,
+    marginBottom: 5,
   },
 });
 

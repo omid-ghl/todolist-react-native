@@ -1,9 +1,9 @@
 export type StackParamList = {
   splash: undefined;
-  create: {
-    title?: string;
-    creationDate?: Date;
-    editing?: boolean;
+  create?: {
+    title: string;
+    creationDate: Date;
+    editing: boolean;
   };
   home: undefined;
 };
