@@ -28,4 +28,7 @@ export default {
   newItem: 'New Item',
   save: 'Save',
   addNewItem: 'Please Input Your New Item ...',
+  edit: 'Edit',
+  editItem: 'Edit Item',
+  update: 'Update',
 };

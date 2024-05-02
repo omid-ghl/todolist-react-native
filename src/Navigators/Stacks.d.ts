@@ -1,6 +1,10 @@
 export type StackParamList = {
   splash: undefined;
-  create: undefined;
+  create: {
+    title?: string;
+    creationDate?: Date;
+    editing?: boolean;
+  };
   home: undefined;
 };
 

@@ -9,20 +9,23 @@ import {CreateHeader} from '../components';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import AsyncStorageService from '@Services/storageService';
 import {STORAGE_KEYS} from '@constants/storageKeys';
-import {useAppDispatch} from '@Hooks';
-import {setNewTodo} from '@Store/todos';
+import {useAppDispatch, useAppSelector} from '@Hooks';
+import {hardSetTodos, setNewTodo} from '@Store/todos';
+import {todo} from '@Models';
 
 const ItemInjectioner: React.FC<StackScreenProps<StackParamList, 'create'>> = ({
   navigation,
+  route: {params},
 }) => {
   const {t} = useTranslation();
   const {bottom} = useSafeAreaInsets();
   const dispatch = useAppDispatch();
+  const todos = useAppSelector(state => state.todos.todosList);
 
   const inputRef = useRef();
 
-  const [inputValue, setInputValue] = useState('');
-  const [saveLoader, setSaveLoader] = useState(false);
+  const [inputValue, setInputValue] = useState<string>(params?.title ?? '');
+  const [saveLoader, setSaveLoader] = useState<boolean>(false);
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -46,13 +49,32 @@ const ItemInjectioner: React.FC<StackScreenProps<StackParamList, 'create'>> = ({
     }, 500);
   }, [dispatch, inputValue, navigation]);
 
+  const onUpdateHandler = useCallback(async () => {
+    setSaveLoader(true);
+
+    const innerTodos: Array<todo> = todos?.map((todoItem: todo) => {
+      if (todoItem.title === params?.title) {
+        return {title: inputValue, creationDate: todoItem?.creationDate};
+      }
+      return {title: todoItem?.title, creationDate: todoItem?.creationDate};
+    });
+
+    await AsyncStorageService.set(STORAGE_KEYS.todoList, innerTodos);
+    dispatch(hardSetTodos(innerTodos));
+
+    setTimeout(() => {
+      setSaveLoader(false);
+      navigation.goBack();
+    }, 500);
+  }, [dispatch, inputValue, navigation, params?.title, todos]);
+
   return (
     <AppScreen style={styles.container}>
       <CreateHeader />
       <Input
         ref={inputRef}
         wrapperStyle={styles.inputWrapperStyle}
-        placeholder={t('addNewItem')}
+        placeholder={params?.editing ? t('editItem') : t('addNewItem')}
         multiline
         style={styles.inputStyle}
         onChangeText={setInputValue}
@@ -60,9 +82,9 @@ const ItemInjectioner: React.FC<StackScreenProps<StackParamList, 'create'>> = ({
       />
       <Button
         style={[styles.addBtnStyle, {bottom: bottom / 2 + 7}]}
-        title={t('save')}
+        title={params?.editing ? t('update') : t('save')}
         icon={<SVG.Plus />}
-        onPress={onSaveHandler}
+        onPress={params?.editing ? onUpdateHandler : onSaveHandler}
         isLoading={saveLoader}
       />
     </AppScreen>
