@@ -14,7 +14,7 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
   const {t} = useTranslation();
 
   const gotoCreateNewPost = useCallback(() => {
-    navigation.navigate('createPost');
+    navigation.navigate('create');
   }, [navigation]);
 
   const renderEmptyList = () => {
