@@ -4,7 +4,7 @@ import {StyleProp, TextStyle, ViewStyle} from 'react-native';
 declare namespace IButton {
   interface IProps {
     onPress: () => void;
-    title: string;
+    title?: string;
     type?: 'primary' | 'secondary';
     style?: StyleProp<ViewStyle>;
     isLoading?: boolean;

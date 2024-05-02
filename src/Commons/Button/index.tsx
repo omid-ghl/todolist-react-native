@@ -41,14 +41,16 @@ const Button = (props: IButton.IProps) => {
       ) : (
         <View style={styles.contentWrapper}>
           {icon}
-          <Text
-            style={[
-              styles.textStyle,
-              type === 'secondary' && {color: colors.primary},
-              textStyle,
-            ]}>
-            {title}
-          </Text>
+          {title && (
+            <Text
+              style={[
+                styles.textStyle,
+                type === 'secondary' && {color: colors.primary},
+                textStyle,
+              ]}>
+              {title}
+            </Text>
+          )}
         </View>
       )}
     </TouchableOpacity>

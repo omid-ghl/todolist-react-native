@@ -27,7 +27,7 @@ export const ApplicationNavigator = () => {
         routeNameRef.current = currentRouteName;
       }}>
       <StatusBar
-        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+        barStyle={Platform.OS === 'ios' ? 'light-content' : 'dark-content'}
       />
       <Stack.Navigator
         screenOptions={{

@@ -4,7 +4,9 @@ import {SVG, colors, typography} from '@Theme';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
+import HomeHeader from '../components/HomeHeader';
+import ItemsCard from '../components/ItemsCard';
 
 const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
   navigation,
@@ -15,28 +17,25 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
     navigation.navigate('createPost');
   }, [navigation]);
 
+  const renderEmptyList = () => {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyMessage}>No cards available</Text>
+      </View>
+    );
+  };
+
   return (
     <AppScreen style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <Button
-          onPress={gotoCreateNewPost}
-          title={t('new_post')}
-          icon={<SVG.Plus style={styles.plusIcon} />}
-          style={styles.newPostButton}
-          textStyle={typography.content}
-        />
-      </View>
+      <HomeHeader onNewItemPressed={gotoCreateNewPost} />
 
-      {/* <FlatList
-        keyExtractor={item => JSON.stringify(item?.id)}
-        renderItem={renderPostCard}
+      <FlatList
+        // keyExtractor={item => JSON.stringify(item?.id)}
+        renderItem={({item}) => <ItemsCard title={JSON.stringify(item)} />}
         contentContainerStyle={styles.flatListContainer}
-        ListFooterComponent={renderFooter}
         ListEmptyComponent={renderEmptyList}
-        onRefresh={refetchPosts}
-        refreshing={fetchingPosts}
-        data={posts}
-      /> */}
+        data={new Array(20).fill({data: 'lamsdk', id: 1})}
+      />
     </AppScreen>
   );
 };
@@ -63,6 +62,7 @@ const styles = StyleSheet.create({
   flatListContainer: {
     alignItems: 'center',
     paddingBottom: 40,
+    paddingTop: 20,
   },
   loadingContainer: {
     paddingVertical: 10,

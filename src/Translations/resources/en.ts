@@ -24,4 +24,5 @@ export default {
   new_post: 'New post',
   deleting_title: 'Are you sure you want to delete the post?',
   log_out: 'Log Out',
+  lists: 'Lists',
 };
