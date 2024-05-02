@@ -31,4 +31,5 @@ export default {
   edit: 'Edit',
   editItem: 'Edit Item',
   update: 'Update',
+  updateItem: 'Update Existing Item',
 };

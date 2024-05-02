@@ -9,6 +9,7 @@ import HomeHeader from '../components/HomeHeader';
 import ItemsCard from '../components/ItemsCard';
 import {useAppSelector} from '@Hooks';
 import AsyncStorageService from '@Services/storageService';
+import {todo} from '@Models';
 
 const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
   navigation,
@@ -28,12 +29,15 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
     );
   };
 
+  const keyExtractor = ({title, creationDate}: todo) =>
+    JSON.stringify(title + creationDate);
+
   return (
     <AppScreen style={styles.container}>
       <HomeHeader onNewItemPressed={gotoCreateNewPost} />
 
       <FlatList
-        keyExtractor={item => JSON.stringify(item?.creationDate)}
+        keyExtractor={keyExtractor}
         renderItem={({item}) => (
           <ItemsCard title={item?.title} creationDate={item?.creationDate} />
         )}

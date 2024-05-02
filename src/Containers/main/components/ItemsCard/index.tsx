@@ -64,7 +64,7 @@ const ItemsCard = (todo: IItemsCard.IProps) => {
       <View style={styles.checkBoxWrapper}>
         <SVG.BareTick width={12} height={12} />
       </View>
-      <View>
+      <View style={styles.dtaWrappStyle}>
         <Text style={styles.titleStyle}>{title}</Text>
         <Text style={styles.deesStyle}>{formattedDate}</Text>
       </View>
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     marginLeft: 10,
+    flexWrap: 'wrap', // Allow text to wrap
     ...typography.content,
     color: colors.neutral['100'],
   },
@@ -149,6 +150,10 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     paddingHorizontal: 10,
+  },
+  dtaWrappStyle: {
+    flex: 1,
+    padding: 12,
   },
 });
 

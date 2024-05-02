@@ -1,15 +1,13 @@
 import {colors, typography} from '@Theme';
 
 import React from 'react';
-import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, View} from 'react-native';
 import {ICreateHeader} from './CreateHeader';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {dimensions} from '@Theme/Variables';
 import {Back} from '@Commons';
 
-const CreateHeader = ({onNewItemPressed}: ICreateHeader.IProps) => {
-  const {t} = useTranslation();
+const CreateHeader = ({title}: ICreateHeader.IProps) => {
   const {top: statusBarHeight} = useSafeAreaInsets();
 
   return (
@@ -19,7 +17,7 @@ const CreateHeader = ({onNewItemPressed}: ICreateHeader.IProps) => {
         {paddingTop: statusBarHeight ? statusBarHeight + 5 : 20},
       ]}>
       <View style={styles.titleWrapper}>
-        <Text style={styles.headerText}>{t('newItem')}</Text>
+        <Text style={styles.headerText}>{title}</Text>
       </View>
       <View style={styles.buttonStyle}>
         <Back crossIcon />

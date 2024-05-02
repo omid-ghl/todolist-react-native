@@ -1,5 +1,7 @@
 declare namespace ICreateHeader {
-  interface IProps {}
+  interface IProps {
+    title: string;
+  }
 }
 
 export {ICreateHeader};
