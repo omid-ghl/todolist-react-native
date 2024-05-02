@@ -16,16 +16,18 @@ const Input = ({
   touched,
   error,
   multiline = false,
+  ref,
 }: IInput.IProps) => {
   const hasErr = touched && error;
 
-  const colorize = hasErr ? colors.darkError : colors.primary;
-  const inputBgColor = hasErr ? colors.bgError : colors.white;
+  const colorize = hasErr ? colors.darkError : colors.neutral['700'];
+  const inputBgColor = hasErr ? colors.bgError : colors.neutral['800'];
 
   return (
     <>
       <View style={wrapperStyle}>
         <TextInput
+          ref={ref}
           onChangeText={onChangeText}
           style={[
             styles.textinputStyle,
@@ -35,6 +37,7 @@ const Input = ({
               backgroundColor: inputBgColor,
               textAlignVertical: multiline ? 'top' : 'center',
             },
+            multiline && styles.paddingTop15,
             style,
           ]}
           value={value}
@@ -44,6 +47,7 @@ const Input = ({
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           multiline={multiline}
+          placeholderTextColor={colors.neutral['600']}
         />
         {hasErr && (
           <Animated.View
@@ -65,6 +69,7 @@ const styles = StyleSheet.create({
     height: 44,
     alignSelf: 'center',
     paddingHorizontal: 8,
+    color: colors.white,
   },
   errTextStyle: {
     marginTop: 4,
@@ -72,6 +77,7 @@ const styles = StyleSheet.create({
     color: colors.darkError,
     ...typography.minimal,
   },
+  paddingTop15: {paddingTop: 15},
 });
 
 export default Input;

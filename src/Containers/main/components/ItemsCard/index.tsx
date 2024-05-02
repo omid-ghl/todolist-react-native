@@ -6,8 +6,21 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {IItemsCard} from './ItemsCard';
 import {dimensions} from '@Theme/Variables';
 
-const ItemsCard = ({title}: IItemsCard.IProps) => {
+const ItemsCard = ({title, creationDate}: IItemsCard.IProps) => {
   const {t} = useTranslation();
+
+  const date = new Date(creationDate);
+
+  const options = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+
+  const formattedDate = date.toLocaleDateString('en-US', options);
 
   return (
     <TouchableOpacity activeOpacity={0.8} style={styles.itemWrapper}>
@@ -16,7 +29,7 @@ const ItemsCard = ({title}: IItemsCard.IProps) => {
       </View>
       <View>
         <Text style={styles.titleStyle}>{title}</Text>
-        <Text style={styles.deesStyle}>{'desc and date'}</Text>
+        <Text style={styles.deesStyle}>{formattedDate}</Text>
       </View>
     </TouchableOpacity>
   );

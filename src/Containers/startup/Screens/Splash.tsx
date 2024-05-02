@@ -1,6 +1,9 @@
 import {AppScreen} from '@Commons';
 import {StackParamList} from '@Navigators/Stacks';
+import AsyncStorageService from '@Services/storageService';
+import {setNewTodo} from '@Store/todos';
 import {colors, typography} from '@Theme';
+import {STORAGE_KEYS} from '@constants/storageKeys';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useCallback, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -28,10 +31,22 @@ const Splash: React.FC<StackScreenProps<StackParamList, 'splash'>> = ({
     [reset],
   );
 
+  const startUpActions = async () => {
+    const localTodos = await AsyncStorageService.get(STORAGE_KEYS.todoList);
+
+    console.log('localTodoslocalTodos', localTodos);
+    if (localTodos) {
+      dispatch(setNewTodo(localTodos));
+    }
+  };
+
   useEffect(() => {
-    setTimeout(() => {
-      resetNavigationTo('home');
-    }, 1000);
+    (async () => {
+      await startUpActions();
+      setTimeout(() => {
+        resetNavigationTo('home');
+      }, 1000);
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

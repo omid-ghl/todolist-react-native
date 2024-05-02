@@ -7,11 +7,14 @@ import {useTranslation} from 'react-i18next';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import HomeHeader from '../components/HomeHeader';
 import ItemsCard from '../components/ItemsCard';
+import {useAppSelector} from '@Hooks';
+import AsyncStorageService from '@Services/storageService';
 
 const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
   navigation,
 }) => {
   const {t} = useTranslation();
+  const todos = useAppSelector(state => state.todos.todosList);
 
   const gotoCreateNewPost = useCallback(() => {
     navigation.navigate('create');
@@ -30,11 +33,19 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
       <HomeHeader onNewItemPressed={gotoCreateNewPost} />
 
       <FlatList
-        // keyExtractor={item => JSON.stringify(item?.id)}
-        renderItem={({item}) => <ItemsCard title={JSON.stringify(item)} />}
+        keyExtractor={item => JSON.stringify(item?.creationDate)}
+        renderItem={({item}) => (
+          <ItemsCard title={item?.title} creationDate={item?.creationDate} />
+        )}
         contentContainerStyle={styles.flatListContainer}
         ListEmptyComponent={renderEmptyList}
-        data={new Array(20).fill({data: 'lamsdk', id: 1})}
+        data={todos}
+      />
+      <Button
+        title="clear all"
+        onPress={async () => {
+          await AsyncStorageService.clear();
+        }}
       />
     </AppScreen>
   );
@@ -74,15 +85,14 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     color: colors.error,
-    fontSize: typography.body,
   },
   emptyContainer: {
     paddingVertical: 10,
     alignItems: 'center',
   },
   emptyMessage: {
-    color: colors.textSecondary,
-    fontSize: typography.body,
+    ...typography.title,
+    color: colors.neutral['500'],
   },
 });
 

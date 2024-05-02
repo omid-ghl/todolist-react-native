@@ -27,4 +27,5 @@ export default {
   lists: 'Lists',
   newItem: 'New Item',
   save: 'Save',
+  addNewItem: 'Please Input Your New Item ...',
 };

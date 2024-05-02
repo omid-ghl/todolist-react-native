@@ -4,11 +4,11 @@ import {setupListeners} from '@reduxjs/toolkit/query';
 import {api} from '@Services/api';
 
 import navigation from './navigation';
-import categories from './categories';
+import todos from './todos';
 
 const reducers = combineReducers({
   navigation,
-  categories,
+  todos,
   api: api.reducer,
 });
 

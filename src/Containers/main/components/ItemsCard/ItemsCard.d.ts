@@ -1,5 +1,8 @@
 declare namespace IItemsCard {
-  interface IProps {}
+  interface IProps {
+    title: string;
+    creationDate: Date;
+  }
 }
 
 export {IItemsCard};

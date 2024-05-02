@@ -14,6 +14,7 @@ declare namespace IInput {
     touched?: boolean;
     error?: string;
     multiline?: boolean;
+    ref?: React.LegacyRef<TextInput>;
   };
 }
 
