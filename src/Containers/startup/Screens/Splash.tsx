@@ -53,7 +53,7 @@ const Splash: React.FC<StackScreenProps<StackParamList, 'splash'>> = ({
   return (
     <AppScreen style={styles.container}>
       <Text style={styles.textStyle}>Splash screen</Text>
-      <ActivityIndicator color={colors.white} style={styles.loadStyle} />
+      <ActivityIndicator color={colors.primary} style={styles.loadStyle} />
     </AppScreen>
   );
 };
@@ -61,12 +61,12 @@ const Splash: React.FC<StackScreenProps<StackParamList, 'splash'>> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.neutral['900'],
     alignItems: 'center',
     justifyContent: 'center',
   },
   loadStyle: {marginTop: 40},
-  textStyle: {...typography.huge, color: colors.white},
+  textStyle: {...typography.huge, color: colors.primary},
 });
 
 export default Splash;
