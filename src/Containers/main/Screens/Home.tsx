@@ -71,6 +71,7 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
           <ItemsCard
             title={item?.title}
             creationDate={item?.creationDate}
+            isDone={item?.isDone}
             index={index}
           />
         )}

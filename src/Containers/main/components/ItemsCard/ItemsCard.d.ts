@@ -3,6 +3,7 @@ declare namespace IItemsCard {
     title: string;
     creationDate: Date;
     index: number;
+    isDone?: boolean;
   }
 }
 

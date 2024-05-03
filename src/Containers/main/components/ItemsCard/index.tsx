@@ -18,6 +18,7 @@ import {STORAGE_KEYS} from '@constants/storageKeys';
 import {useNavigation} from '@react-navigation/native';
 import {StackParamList} from '@Navigators/Stacks';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {Todo} from '@Models';
 
 const _ItemsCard = (todo: IItemsCard.IProps) => {
   const {title, creationDate, index} = todo;
@@ -43,6 +44,15 @@ const _ItemsCard = (todo: IItemsCard.IProps) => {
 
   const formattedDate = date.toLocaleDateString('en-US', options);
 
+  const hardSaveValues = useCallback(
+    async (values: Array<Todo>) => {
+      dispatch(hardSetTodos(values));
+
+      await AsyncStorageService.set(STORAGE_KEYS.todoList, values);
+    },
+    [dispatch],
+  );
+
   const handleActionToggle = useCallback(() => {
     setShowActions(pre => !pre);
   }, []);
@@ -53,15 +63,34 @@ const _ItemsCard = (todo: IItemsCard.IProps) => {
       item => item.title !== title && item.creationDate !== creationDate,
     );
 
-    dispatch(hardSetTodos(remainTodos));
-
-    await AsyncStorageService.set(STORAGE_KEYS.todoList, remainTodos);
-  }, [creationDate, dispatch, handleActionToggle, title, todos]);
+    hardSaveValues(remainTodos);
+  }, [creationDate, handleActionToggle, hardSaveValues, title, todos]);
 
   const onEdit = useCallback(() => {
     handleActionToggle();
     navigation.navigate('create', {...todo, editing: true});
   }, [handleActionToggle, navigation, todo]);
+
+  const onDoneHandler = useCallback(async () => {
+    // it can be minimized but this structure is more readable
+
+    const modifiedTodos = todos?.map((item: Todo) => {
+      if (item?.title === title && item?.creationDate === creationDate) {
+        return {
+          title: item?.title,
+          creationDate: item?.creationDate,
+          isDone: !item?.isDone,
+        };
+      }
+      return {
+        title: item?.title,
+        creationDate: item?.creationDate,
+        isDone: item?.isDone ?? false,
+      };
+    });
+
+    await hardSaveValues(modifiedTodos);
+  }, [creationDate, hardSaveValues, title, todos]);
 
   return (
     <Animated.View
@@ -71,9 +100,12 @@ const _ItemsCard = (todo: IItemsCard.IProps) => {
         activeOpacity={0.8}
         style={styles.itemWrapper}
         onPress={handleActionToggle}>
-        <View style={styles.checkBoxWrapper}>
-          <SVG.BareTick width={12} height={12} />
-        </View>
+        <TouchableOpacity
+          onPress={onDoneHandler}
+          hitSlop={{top: 10, bottom: 10, right: 5, left: 5}}
+          style={styles.checkBoxWrapper}>
+          {todo?.isDone && <SVG.BareTick width={12} height={12} />}
+        </TouchableOpacity>
         <View style={styles.dtaWrappStyle}>
           <Text style={styles.titleStyle}>{title}</Text>
           <Text style={styles.deesStyle}>{formattedDate}</Text>
