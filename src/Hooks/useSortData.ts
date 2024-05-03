@@ -9,6 +9,7 @@ const useSortData = (data: todo[], sortBy: SortBy) => {
   useEffect(() => {
     if (data && data.length > 0) {
       let sorted: todo[];
+
       if (sortBy === 'creationDate') {
         sorted = [...data].sort(
           (a, b) =>
@@ -25,17 +26,31 @@ const useSortData = (data: todo[], sortBy: SortBy) => {
     }
   }, [data, sortBy, sortedData]);
 
+  if (!data?.length) {
+    return data;
+  }
+
   return sortedData;
 };
 
 // Function to check if two arrays are equal
 const arraysEqual = (a: any[], b: any[]) => {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length !== b.length) return false;
+  if (a === b) {
+    return true;
+  }
+
+  if (a == null || b == null) {
+    return false;
+  }
+
+  if (a.length !== b.length) {
+    return false;
+  }
 
   for (let i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
+    if (a[i] !== b[i]) {
+      return false;
+    }
   }
 
   return true;

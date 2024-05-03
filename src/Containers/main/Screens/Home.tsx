@@ -39,9 +39,12 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
     JSON.stringify(title + JSON.stringify(creationDate) + index);
 
   const finalValues = todos?.filter(item => {
-    const lowerCaseTitle = item?.title?.toLowerCase();
-    const lowerCaseSearchCase = searchValue?.toLowerCase();
-    return lowerCaseTitle.includes(lowerCaseSearchCase);
+    if (searchValue) {
+      const lowerCaseTitle = item?.title?.toLowerCase();
+      const lowerCaseSearchCase = searchValue?.toLowerCase();
+      return lowerCaseTitle.includes(lowerCaseSearchCase);
+    }
+    return todos;
   });
 
   const openActionsModal = useCallback(() => {
@@ -73,7 +76,7 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
         )}
         contentContainerStyle={styles.flatListContainer}
         ListEmptyComponent={renderEmptyList}
-        data={sortedData ?? []}
+        data={searchValue ? sortedData : finalValues}
       />
       <ActionsModal
         ActionsModalRef={ActionsModalRef}

@@ -30,11 +30,12 @@ const ActionsModal = ({
 
   const {bottom: bottomHeight} = useSafeAreaInsets();
 
-  const clearAllHandler = useCallback(async () => {
+  const clearAllHandler = async () => {
     await AsyncStorageService.clear();
     dispatch(resetTodos());
+
     closeModal();
-  }, [closeModal, dispatch]);
+  };
 
   const actions = [
     {
