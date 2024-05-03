@@ -1,8 +1,8 @@
-import {todo} from '@Models';
+import {Todo} from '@Models';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 type TodosType = {
-  todosList: todo[];
+  todosList: Todo[];
 };
 
 const initialState: TodosType = {
@@ -13,10 +13,10 @@ const slice = createSlice({
   name: 'todos',
   initialState: initialState,
   reducers: {
-    hardSetTodos: (state, action: PayloadAction<todo[]>) => {
+    hardSetTodos: (state, action: PayloadAction<Todo[]>) => {
       state.todosList = action.payload;
     },
-    setNewTodo: (state, action: PayloadAction<todo>) => {
+    setNewTodo: (state, action: PayloadAction<Todo>) => {
       state.todosList = state.todosList.concat(action.payload);
     },
     removeTodo: (
@@ -24,7 +24,7 @@ const slice = createSlice({
       action: PayloadAction<{title: string; creationDate: string}>,
     ) => {
       state.todosList = state.todosList.filter(
-        (todo: todo) => todo.title !== action.payload.title,
+        (todo: Todo) => todo.title !== action.payload.title,
       );
     },
     reset: state => {

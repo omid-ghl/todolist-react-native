@@ -1,3 +1,4 @@
+import {colors} from '@Theme';
 import React, {ReactNode, RefObject, useState} from 'react';
 import {StyleSheet, View, ViewStyle} from 'react-native';
 
@@ -5,7 +6,6 @@ import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {colors} from '../../Theme';
 
 interface Props {
   children: ReactNode;

@@ -1,14 +1,14 @@
-import {todo} from '@Models';
+import {Todo} from '@Models';
 import {useEffect, useState} from 'react';
 
 export type SortBy = 'creationDate' | 'title';
 
-const useSortData = (data: todo[], sortBy: SortBy) => {
-  const [sortedData, setSortedData] = useState<todo[]>([]);
+const useSortData = (data: Todo[], sortBy: SortBy) => {
+  const [sortedData, setSortedData] = useState<Todo[]>([]);
 
   useEffect(() => {
     if (data && data.length > 0) {
-      let sorted: todo[];
+      let sorted: Todo[];
 
       if (sortBy === 'creationDate') {
         sorted = [...data].sort(
