@@ -51,12 +51,12 @@ const ItemInjectioner: React.FC<StackScreenProps<StackParamList, 'create'>> = ({
     setSaveLoader(true);
 
     const innerTodos: Array<Todo> = todos?.map(
-      ({title, creationDate}: Todo) => {
+      ({title, creationDate, isDone = false}: Todo) => {
         if (title === injectedTitle && creationDate === injectedCreationDate) {
-          return {title: inputValue, creationDate};
+          return {title: inputValue, creationDate, isDone};
         }
 
-        return {title, creationDate};
+        return {title, creationDate, isDone};
       },
     );
 

@@ -77,7 +77,7 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
         )}
         contentContainerStyle={styles.flatListContainer}
         ListEmptyComponent={renderEmptyList}
-        data={searchValue ? sortedData : finalValues}
+        data={sortedData}
       />
       <ActionsModal
         ActionsModalRef={ActionsModalRef}
