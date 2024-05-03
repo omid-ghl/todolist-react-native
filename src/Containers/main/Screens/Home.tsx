@@ -7,8 +7,8 @@ import {useTranslation} from 'react-i18next';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import HomeHeader from '../components/HomeHeader';
 import {ActionsModal, ItemsCard} from '../components';
-import {useAppSelector, useSortedData} from '@Hooks';
-import {todo} from '@Models';
+import {useAppSelector} from '@Hooks';
+import {Todo} from '@Models';
 import {Modalize} from 'react-native-modalize';
 import useSortData, {SortBy} from '@Hooks/useSortData';
 import {INITIAL_SORT_TYPE} from '@constants/common';
@@ -35,7 +35,7 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
     );
   };
 
-  const keyExtractor = ({title, creationDate}: todo, index: number) =>
+  const keyExtractor = ({title, creationDate}: Todo, index: number) =>
     JSON.stringify(title + JSON.stringify(creationDate) + index);
 
   const finalValues = todos?.filter(item => {
@@ -71,12 +71,13 @@ const Home: React.FC<StackScreenProps<StackParamList, 'home'>> = ({
           <ItemsCard
             title={item?.title}
             creationDate={item?.creationDate}
+            isDone={item?.isDone}
             index={index}
           />
         )}
         contentContainerStyle={styles.flatListContainer}
         ListEmptyComponent={renderEmptyList}
-        data={searchValue ? sortedData : finalValues}
+        data={sortedData}
       />
       <ActionsModal
         ActionsModalRef={ActionsModalRef}

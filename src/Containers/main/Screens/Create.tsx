@@ -11,7 +11,7 @@ import AsyncStorageService from '@Services/storageService';
 import {STORAGE_KEYS} from '@constants/storageKeys';
 import {useAppDispatch, useAppSelector} from '@Hooks';
 import {hardSetTodos, setNewTodo} from '@Store/todos';
-import {todo} from '@Models';
+import {Todo} from '@Models';
 
 const ItemInjectioner: React.FC<StackScreenProps<StackParamList, 'create'>> = ({
   navigation,
@@ -50,13 +50,13 @@ const ItemInjectioner: React.FC<StackScreenProps<StackParamList, 'create'>> = ({
   const onUpdateHandler = useCallback(async () => {
     setSaveLoader(true);
 
-    const innerTodos: Array<todo> = todos?.map(
-      ({title, creationDate}: todo) => {
+    const innerTodos: Array<Todo> = todos?.map(
+      ({title, creationDate, isDone = false}: Todo) => {
         if (title === injectedTitle && creationDate === injectedCreationDate) {
-          return {title: inputValue, creationDate};
+          return {title: inputValue, creationDate, isDone};
         }
 
-        return {title, creationDate};
+        return {title, creationDate, isDone};
       },
     );
 

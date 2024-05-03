@@ -1,15 +1,12 @@
 import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import {setupListeners} from '@reduxjs/toolkit/query';
 
-import {api} from '@Services/api';
-
 import navigation from './navigation';
 import todos from './todos';
 
 const reducers = combineReducers({
   navigation,
   todos,
-  api: api.reducer,
 });
 
 const store = configureStore({
@@ -17,7 +14,7 @@ const store = configureStore({
   middleware: getDefaultMiddleware => {
     const middlewares = getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(api.middleware);
+    });
     return middlewares;
   },
 });

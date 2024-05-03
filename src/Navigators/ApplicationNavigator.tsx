@@ -38,6 +38,8 @@ export const ApplicationNavigator = () => {
             headerLeftContainerStyle: styles.headerLeftContainer,
           }}
           initialRouteName="splash">
+          {/* stacks must be add here */}
+
           {startUpNavigation()}
           {mainNavigation()}
         </Stack.Navigator>
