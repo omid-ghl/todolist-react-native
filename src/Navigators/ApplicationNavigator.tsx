@@ -9,6 +9,7 @@ import {Stack} from './NavigationStack';
 import {StackParamList} from './Stacks';
 import {mainNavigation} from '@Containers/main';
 import {startUpNavigation} from '@Containers/startup';
+import {Host} from 'react-native-portalize';
 
 export const ApplicationNavigator = () => {
   const routeNameRef = useRef<string>();
@@ -29,16 +30,18 @@ export const ApplicationNavigator = () => {
       <StatusBar
         barStyle={Platform.OS === 'ios' ? 'light-content' : 'dark-content'}
       />
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          headerBackTitleVisible: false,
-          headerLeftContainerStyle: styles.headerLeftContainer,
-        }}
-        initialRouteName="splash">
-        {startUpNavigation()}
-        {mainNavigation()}
-      </Stack.Navigator>
+      <Host>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            headerBackTitleVisible: false,
+            headerLeftContainerStyle: styles.headerLeftContainer,
+          }}
+          initialRouteName="splash">
+          {startUpNavigation()}
+          {mainNavigation()}
+        </Stack.Navigator>
+      </Host>
     </NavigationContainer>
   );
 };

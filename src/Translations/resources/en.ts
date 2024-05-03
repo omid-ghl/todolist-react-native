@@ -28,4 +28,10 @@ export default {
   newItem: 'New Item',
   save: 'Save',
   addNewItem: 'Please Input Your New Item ...',
+  edit: 'Edit',
+  editItem: 'Edit Item',
+  update: 'Update',
+  updateItem: 'Update Existing Item',
+  deleteAll: '⚠️ Delete Whole Items ⚠️',
+  sortBy: 'Toggle And Sort By {{parameter}}',
 };

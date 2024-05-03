@@ -1,12 +1,11 @@
 import {AppScreen} from '@Commons';
 import {StackParamList} from '@Navigators/Stacks';
 import AsyncStorageService from '@Services/storageService';
-import {setNewTodo} from '@Store/todos';
+import {hardSetTodos} from '@Store/todos';
 import {colors, typography} from '@Theme';
 import {STORAGE_KEYS} from '@constants/storageKeys';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useCallback, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
 import {ActivityIndicator, StyleSheet, Text} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch} from 'react-redux';
@@ -15,7 +14,6 @@ const Splash: React.FC<StackScreenProps<StackParamList, 'splash'>> = ({
   navigation: {reset},
 }) => {
   const dispatch = useDispatch();
-  const {t} = useTranslation();
 
   const resetNavigationTo = useCallback(
     (name: keyof StackParamList) => {
@@ -34,9 +32,8 @@ const Splash: React.FC<StackScreenProps<StackParamList, 'splash'>> = ({
   const startUpActions = async () => {
     const localTodos = await AsyncStorageService.get(STORAGE_KEYS.todoList);
 
-    console.log('localTodoslocalTodos', localTodos);
     if (localTodos) {
-      dispatch(setNewTodo(localTodos));
+      dispatch(hardSetTodos(localTodos));
     }
   };
 

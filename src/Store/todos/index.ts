@@ -19,12 +19,20 @@ const slice = createSlice({
     setNewTodo: (state, action: PayloadAction<todo>) => {
       state.todosList = state.todosList.concat(action.payload);
     },
+    removeTodo: (
+      state,
+      action: PayloadAction<{title: string; creationDate: string}>,
+    ) => {
+      state.todosList = state.todosList.filter(
+        (todo: todo) => todo.title !== action.payload.title,
+      );
+    },
     reset: state => {
       Object.assign(state, initialState);
     },
   },
 });
 
-export const {hardSetTodos, setNewTodo, reset} = slice.actions;
+export const {hardSetTodos, setNewTodo, removeTodo, reset} = slice.actions;
 
 export default slice.reducer;

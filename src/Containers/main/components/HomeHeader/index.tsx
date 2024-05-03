@@ -7,7 +7,7 @@ import {IHomeHeader} from './HomeHeader';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {dimensions} from '@Theme/Variables';
 
-const HomeHeader = ({onNewItemPressed}: IHomeHeader.IProps) => {
+const HomeHeader = ({onNewItemPressed, onMorePressed}: IHomeHeader.IProps) => {
   const {t} = useTranslation();
   const {top: statusBarHeight} = useSafeAreaInsets();
 
@@ -22,9 +22,14 @@ const HomeHeader = ({onNewItemPressed}: IHomeHeader.IProps) => {
         <SVG.BareTick width={24} height={24} style={styles.secIcon} />
         <Text style={styles.headerText}>{t('lists')}</Text>
       </View>
-      <TouchableOpacity onPress={onNewItemPressed} style={styles.buttonStyle}>
-        <SVG.Plus />
-      </TouchableOpacity>
+      <View style={styles.rowStyle}>
+        <TouchableOpacity onPress={onMorePressed} style={styles.actionsBtn}>
+          <SVG.More />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onNewItemPressed} style={styles.buttonStyle}>
+          <SVG.Plus />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -59,6 +64,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.primary,
   },
+  actionsBtn: {
+    padding: 10,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.neutral['500'],
+    marginRight: 10,
+  },
+  rowStyle: {flexDirection: 'row'},
 });
 
 export default HomeHeader;

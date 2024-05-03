@@ -25,6 +25,7 @@ export const colors = {
   error: '#F24141',
   lightBlue: '#abdceb',
   warn: '#fa9746',
+  hint: '#5882FF',
 };
 
 export default colors;
