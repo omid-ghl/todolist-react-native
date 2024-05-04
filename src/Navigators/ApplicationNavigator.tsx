@@ -10,6 +10,7 @@ import {StackParamList} from './Stacks';
 import {mainNavigation} from '@Containers/main';
 import {startUpNavigation} from '@Containers/startup';
 import {Host} from 'react-native-portalize';
+import {colors} from '@Theme';
 
 export const ApplicationNavigator = () => {
   const routeNameRef = useRef<string>();
@@ -28,7 +29,8 @@ export const ApplicationNavigator = () => {
         routeNameRef.current = currentRouteName;
       }}>
       <StatusBar
-        barStyle={Platform.OS === 'ios' ? 'light-content' : 'dark-content'}
+        backgroundColor={colors.bgContent}
+        barStyle={'light-content'}
       />
       <Host>
         <Stack.Navigator
