@@ -1,5 +1,5 @@
 export default {
-  app_name: 'STD Test',
+  app_name: 'TODO Test',
   sign_in: 'Sign In',
   remember_me: 'Remember me',
   need_acc: 'Need an account?',
