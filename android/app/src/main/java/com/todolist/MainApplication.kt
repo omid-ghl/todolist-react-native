@@ -1,4 +1,4 @@
-package com.todolist
+package com.notepad
 
 import android.app.Application
 import com.facebook.react.PackageList
